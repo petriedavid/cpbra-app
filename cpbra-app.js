@@ -2,9 +2,6 @@
  * Copyright 2025 kinguva7229
  * @license Apache-2.0, see LICENSE for full text.
  */
-import { LitElement, html, css } from "lit";
-import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
 /**
  * `cpbra-app`
@@ -12,6 +9,14 @@ import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
  * @demo index.html
  * @element cpbra-app
  */
+import { LitElement, html, css } from "lit";
+import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
+import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+
+import "./cpbra-bigass-banner.js";
+import "./cpbra-scroll-btn.js";
+
+
 export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
 
   static get tag() {
@@ -20,26 +25,14 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
-    };
-    this.registerLocalization({
-      context: this,
-      localesPath:
-        new URL("./locales/cpbra-app.ar.json", import.meta.url).href +
-        "/../",
-      locales: ["ar", "es", "hi", "zh"],
-    });
+    
+    
   }
 
   // Lit reactive properties
   static get properties() {
     return {
-      ...super.properties,
-      title: { type: String },
+    
     };
   }
 
@@ -66,10 +59,19 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-<div class="wrapper">
-  <h3><span>${this.t.title}:</span> ${this.title}</h3>
-  <slot></slot>
-</div>`;
+      <!-- HERO BANNER -->
+      <cpbra-banner
+        logoimg="/images/cpbra_logo.png"
+        bgimg="/images/bg_img_ball_court.png"
+        tagline="Community. Hoops. Everyone."
+      ></cpbra-banner>
+
+      <!-- FLOATING CENTER SCROLL BUTTON -->
+      <cpbra-scroll-btn target="#next"></cpbra-scroll-btn>
+
+      <!-- EMPTY SECTION JUST TO SCROLL TO -->
+      <div id="next" class="spacer"></div>
+    `;
   }
 
   /**

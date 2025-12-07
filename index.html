@@ -1,66 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <base href="/">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="Description" content="Demonstration for cpbra-app">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPBRA Banner Test</title>
+
+  <!-- Import the specific components -->
+  <script type="module" src="./lib/cpbra-bigass-banner.js"></script>
+  <script type="module" src="./lib/cpbra-scroll-btn.js"></script>
+  <script type="module" src="./lib/cpbra-court.js"></script>
 
   <style>
-    :root,
-    html,
     body {
-      margin: var(--ddd-spacing-0);
-      padding: var(--ddd-spacing-0);
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: sans-serif;
+      scroll-behavior: smooth;
     }
 
-    #demo {
-      margin: var(--ddd-spacing-2);
+    /* Simulate DDD theme variables for design consistency */
+    :root {
+      --ddd-theme-default-navy: #003B5C;
+      --ddd-theme-default-navy80: #1A2938;
+      --ddd-theme-default-white: #FFFFFF;
+      --ddd-theme-default-yellow: #FFB81C;
+
+      --ddd-spacing-12: 3rem;
+      --ddd-spacing-10: 2.5rem;
+      --ddd-spacing-7: 1.75rem;
+      --ddd-spacing-6: 1.5rem;
+      --ddd-spacing-4: 1rem;
+
+      --ddd-font-primary: "Roboto", sans-serif;
+      --ddd-font-navigation: "Inter", sans-serif;
+      --ddd-font-weight-black: 900;
+      --ddd-lh-120: 1.2;
+      --ddd-ls-32-lg: 0.48px;
     }
 
-    cpbra-app {
-      margin: var(--ddd-spacing-2);
-      border: var(--ddd-border-md);
-      border-radius: var(--ddd-radius-lg);
+    .section {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
     }
 
-    cpbra-app:hover {
-      box-shadow: var(--ddd-boxShadow-sm);
+    /* New styles for the triple court layout */
+    .court-display {
+      display: flex;
+      flex-wrap: wrap;
+      /* Allows wrapping on smaller screens */
+      gap: 24px;
+      justify-content: center;
+      width: 100%;
+      max-width: 1400px;
+      /* Limit overall width for better viewing */
     }
 
-    #example {
-      --cpbra-app-font-size: var(--ddd-font-size-l);
-      background-color: var(--ddd-accent-2);
-      color: var(--ddd-primary-17);
+    .court-container {
+      flex: 1 1 300px;
+      /* Allows component to grow, shrink, and have a base width of 300px */
+      min-width: 300px;
+      max-width: 400px;
+      margin-bottom: 24px;
+    }
+
+    /* Ensure the component itself takes up the container space */
+    .court-container cpbra-court {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 1024px) {
+      .court-container {
+        flex: 1 1 45%;
+        /* Two per row */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .court-container {
+        flex: 1 1 100%;
+        /* One per row */
+      }
     }
   </style>
-  <title>cpbra-app</title>
 </head>
-<script type="module" src="./lib/cpbra-cta.js"></script>
-<script type="module" src="./lib/cpbra-court.js"></script>
-
 
 <body>
-  <div id="demo">
-    <h2>Slot usage</h2>
-    <cpbra-app data-accent="2" data-primary="17">
-      <div>Sample slot content</div>
-    </cpbra-app>
-  </div>
-  <center>
-    <div>
-      <h2>button</h2>
-      <cpbra-cta></cpbra-cta>
+
+  <cpbra-banner logoimg="https://placehold.co/200x80/ffffff/000000?text=CPBRA+Logo"
+    bgimg="https://placehold.co/1920x800/2A2E35/ffffff?text=Basketball+Court+Background"
+    tagline="Where Anybody Can Get Next"></cpbra-banner>
+
+  <!-- Features Section -->
+  <section id="features" class="section" style="background: #111;">
+    <h2 style="color: white; margin-bottom: 2rem;">Live Pickup Game Status</h2>
+
+    <div class="court-display">
+
+      <!-- Court 1: Full Court 5v5 -->
+      <div class="court-container">
+        <h3 style="color: var(--ddd-theme-default-white); text-align: center;">Full Court (10 Players)</h3>
+        <cpbra-court game-duration="15" player-count="10" floor-color="#556B2F"
+          line-color="var(--ddd-theme-default-white)" key-color="rgba(255, 255, 255, 0.15)"></cpbra-court>
+      </div>
+
+      <!-- Court 2: Half Court 3v3 -->
+      <div class="court-container">
+        <h3 style="color: var(--ddd-theme-default-white); text-align: center;">Half Court (6 Players)</h3>
+        <cpbra-court game-duration="10" player-count="6" half floor-color="var(--ddd-theme-default-navy)"
+          line-color="var(--ddd-theme-default-yellow)" key-color="rgba(255, 184, 28, 0.15)"></cpbra-court>
+      </div>
+
+      <!-- Court 3: Full Court 4v4 (Shorter Game) -->
+      <div class="court-container">
+        <h3 style="color: var(--ddd-theme-default-white); text-align: center;">Full Court (8 Players)</h3>
+        <cpbra-court game-duration="8" player-count="8" floor-color="#4682B4"
+          line-color="var(--ddd-theme-default-white)" key-color="rgba(255, 255, 255, 0.2)"></cpbra-court>
+      </div>
 
     </div>
-    <cpbra-court></cpbra-court>
 
-  </center>
+  </section>
 
+  <!-- Signup Section -->
+  <section id="signup" class="section" style="background: #003B5C;">
+    <h2 style="color: var(--ddd-theme-default-yellow);">Ready to Play?</h2>
+    <cpbra-cta label="Join the Next Pickup Game" url="#" variant="primary" size="lg"></cpbra-cta>
+  </section>
 
-  <!-- Take HAX, the Web and you further down the rabbit hole -->
-
+  <!-- Scroll Button targetting the features section -->
+  <cpbra-scroll-btn target="#features"></cpbra-scroll-btn>
 
 </body>
 

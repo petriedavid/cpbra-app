@@ -1,86 +1,154 @@
-/**
- * Copyright 2025 kinguva7229
- * @license Apache-2.0, see LICENSE for full text.
- */
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
-import "lib/cpbra-court.js";
-import "lib/cpbra-cta.js";
+import "./lib/cpbra-bigass-banner.js";
+import "./lib/cpbra-nav-menu.js";
+import "./lib/cpbra-court.js";
+import "./lib/cpbra-schedule-list.js";
+import "./lib/cpbra-content-band.js";
+import "./lib/cpbra-scroll-btn.js";
 
-/**
- * `cpbra-app`
- * 
- * @demo index.html
- * @element cpbra-app
- */
-export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
+export class CpbraApp extends DDDSuper(LitElement) {
 
   static get tag() {
     return "cpbra-app";
   }
 
-  constructor() {
-    super();
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
-    };
-    this.registerLocalization({
-      context: this,
-      localesPath:
-        new URL("./locales/cpbra-app.ar.json", import.meta.url).href +
-        "/../",
-      locales: ["ar", "es", "hi", "zh"],
-    });
-  }
-
-  // Lit reactive properties
   static get properties() {
     return {
-      ...super.properties,
-      title: { type: String },
+      activeRoute: { type: String }
     };
   }
 
-  // Lit scoped styles
+  constructor() {
+    super();
+    this.activeRoute = window.location.pathname;
+    this.addEventListener("route-changed", this._handleRouteChange);
+    window.addEventListener("popstate", this._handlePopState.bind(this));
+  }
+
+  _handleRouteChange(e) {
+    this.activeRoute = e.detail.route;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  _handlePopState() {
+    this.activeRoute = window.location.pathname;
+  }
+
   static get styles() {
     return [super.styles,
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
+        background-color: var(--ddd-theme-default-slateMaxLight);
+        min-height: 100vh;
       }
-      .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
+      
+      .court-display {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        width: 100%;
       }
-      h3 span {
-        font-size: var(--cpbra-app-label-font-size, var(--ddd-font-size-s));
+
+      .court-container {
+        flex: 1 1 300px;
+        min-width: 300px;
+        max-width: 450px;
+        margin-bottom: 24px;
       }
     `];
   }
 
-  // Lit render the HTML
-  render() {
-    return html`
-<div class="wrapper">
-  <h3><span>${this.t.title}:</span> ${this.title}</h3>
-  <slot></slot>
+  renderRoute() {
+    const route = this.activeRoute === "/" ? "/" : this.activeRoute.replace(/\/$/, "");
 
-</div>`;
+    switch (route) {
+      case "/schedule":
+        return html`
+          <cpbra-content-band variant="default">
+            <cpbra-schedule-list></cpbra-schedule-list>
+          </cpbra-content-band>
+        `;
+
+      case "/roster":
+      case "/join":
+        return html`
+          <cpbra-content-band variant="light">
+            <div style="text-align: center; padding: 40px;">
+              <h2>Coming Soon</h2>
+              <p>This section is currently under development.</p>
+            </div>
+          </cpbra-content-band>
+        `;
+
+      case "/":
+      case "/home":
+      default:
+        return html`
+          <cpbra-content-band variant="light" id="features">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Live Park Status</h2>
+            
+            <div class="court-display">
+              
+              <div class="court-container">
+                <cpbra-court 
+                  court-name="Dreamville" 
+                  game-duration="21" 
+                  floor-color="#003B5C" 
+                  squads-waiting="4">
+                </cpbra-court>
+              </div>
+
+              <div class="court-container">
+                <cpbra-court 
+                  court-name="The Cage" 
+                  game-duration="10" 
+                  floor-color="#222" 
+                  squads-waiting="1">
+                </cpbra-court>
+              </div>
+
+              <div class="court-container">
+                <cpbra-court 
+                  court-name="Rookie Run" 
+                  game-duration="5" 
+                  floor-color="#556B2F" 
+                  squads-waiting="0">
+                </cpbra-court>
+              </div>
+
+            </div>
+          </cpbra-content-band>
+        `;
+    }
   }
 
-  /**
-   * haxProperties integration via file reference
-   */
-  static get haxProperties() {
-    return new URL(`./lib/${this.tag}.haxProperties.json`, import.meta.url)
-      .href;
+  render() {
+    return html`
+      <cpbra-banner 
+        logoimg="https://placehold.co/200x80/ffffff/000000?text=CPBRA+Logo"
+        bgimg="https://placehold.co/1920x800/2A2E35/ffffff?text=Basketball+Court+Background"
+        tagline="Where Anybody Can Get Next">
+      </cpbra-banner>
+
+      <cpbra-nav-menu active-route="${this.activeRoute}"></cpbra-nav-menu>
+
+      <main>
+        ${this.renderRoute()}
+      </main>
+
+      <cpbra-content-band variant="accent">
+         <div style="text-align: center;">
+            <h2>CPBRA League 2025</h2>
+            <p>Copyright © 2025 Kinguva7229</p>
+         </div>
+      </cpbra-content-band>
+
+      <cpbra-scroll-btn target="main"></cpbra-scroll-btn>
+    `;
   }
 }
 

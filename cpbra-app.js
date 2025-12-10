@@ -23,6 +23,12 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
     return "cpbra-app";
   }
 
+  static get properties() {
+    return {
+      activeRoute: { type: String }
+    };
+  }
+
   constructor() {
     super();
     
@@ -36,27 +42,97 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
     };
   }
 
-  // Lit scoped styles
   static get styles() {
     return [super.styles,
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
+        background-color: var(--ddd-theme-default-slateMaxLight);
+        min-height: 100vh;
       }
-      .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
+      
+      .court-display {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        width: 100%;
       }
-      h3 span {
-        font-size: var(--cpbra-app-label-font-size, var(--ddd-font-size-s));
+
+      .court-container {
+        flex: 1 1 300px;
+        min-width: 300px;
+        max-width: 450px;
+        margin-bottom: 24px;
       }
     `];
   }
 
-  // Lit render the HTML
+  renderRoute() {
+    const route = this.activeRoute === "/" ? "/" : this.activeRoute.replace(/\/$/, "");
+
+    switch (route) {
+      case "/schedule":
+        return html`
+          <cpbra-content-band variant="default">
+            <cpbra-schedule-list></cpbra-schedule-list>
+          </cpbra-content-band>
+        `;
+
+      case "/roster":
+      case "/join":
+        return html`
+          <cpbra-content-band variant="light">
+            <div style="text-align: center; padding: 40px;">
+              <h2>Coming Soon</h2>
+              <p>This section is currently under development.</p>
+            </div>
+          </cpbra-content-band>
+        `;
+
+      case "/":
+      case "/home":
+      default:
+        return html`
+          <cpbra-content-band variant="light" id="features">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Live Park Status</h2>
+            
+            <div class="court-display">
+              
+              <div class="court-container">
+                <cpbra-court 
+                  court-name="Dreamville" 
+                  game-duration="21" 
+                  floor-color="#003B5C" 
+                  squads-waiting="4">
+                </cpbra-court>
+              </div>
+
+              <div class="court-container">
+                <cpbra-court 
+                  court-name="The Cage" 
+                  game-duration="10" 
+                  floor-color="#222" 
+                  squads-waiting="1">
+                </cpbra-court>
+              </div>
+
+              <div class="court-container">
+                <cpbra-court 
+                  court-name="Rookie Run" 
+                  game-duration="5" 
+                  floor-color="#556B2F" 
+                  squads-waiting="0">
+                </cpbra-court>
+              </div>
+
+            </div>
+          </cpbra-content-band>
+        `;
+    }
+  }
+
   render() {
     return html`
       <!-- HERO BANNER -->
@@ -74,12 +150,8 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
     `;
   }
 
-  /**
-   * haxProperties integration via file reference
-   */
-  static get haxProperties() {
-    return new URL(`./lib/${this.tag}.haxProperties.json`, import.meta.url)
-      .href;
+      <cpbra-scroll-btn target="main"></cpbra-scroll-btn>
+    `;
   }
 }
 

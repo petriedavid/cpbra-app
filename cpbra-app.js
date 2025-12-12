@@ -1,19 +1,5 @@
-/**
- * Copyright 2025 kinguva7229
- * @license Apache-2.0, see LICENSE for full text.
- */
-
-/**
- * `cpbra-app`
- * 
- * @demo index.html
- * @element cpbra-app
- */
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-<<<<<<< Updated upstream
-import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
-=======
 import "./lib/cpbra-bigass-banner.js";
 import "./lib/cpbra-nav-menu.js";
 import "./lib/cpbra-court.js";
@@ -23,13 +9,8 @@ import "./lib/cpbra-scroll-btn.js";
 import "./lib/cpbra-signup.js";
 import "./lib/cpbra-gallery.js";
 import "./lib/cpbra-footer.js";
->>>>>>> Stashed changes
 
-import "./cpbra-bigass-banner.js";
-import "./cpbra-scroll-btn.js";
-
-
-export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
+export class CpbraApp extends DDDSuper(LitElement) {
 
   static get tag() {
     return "cpbra-app";
@@ -44,18 +25,6 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-<<<<<<< Updated upstream
-    
-    
-  }
-
-  // Lit reactive properties
-  static get properties() {
-    return {
-    
-    };
-=======
-    // NEW: Use helper function to determine route from URL (for query parameter routing)
     this.activeRoute = this._getRouteFromUrl();
 
     this.courtQueues = {
@@ -64,19 +33,15 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
       "Rookie Run": 0
     };
 
-    // REMOVED: isDark property and logic are no longer needed. 
-    // Dark mode is handled purely via CSS media queries now.
 
     this.addEventListener("route-changed", this._handleRouteChange);
     this.addEventListener("player-signed-up", this._handleSignup);
     window.addEventListener("popstate", this._handlePopState.bind(this));
   }
 
-  // --- NEW: Query Parameter Routing Logic ---
   _getRouteFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const page = params.get('page');
-    // Returns '/', '/schedule', '/join', etc., or /404 if not found
     return page ? `/${page}` : window.location.pathname === '/' ? '/' : '/404';
   }
 
@@ -91,16 +56,13 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
   }
 
   _handleRouteChange(e) {
-    this.activeRoute = e.detail.route; // Route passed from nav component
+    this.activeRoute = e.detail.route;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   _handlePopState() {
-    // NEW: Update route based on URL change in history
     this.activeRoute = this._getRouteFromUrl();
->>>>>>> Stashed changes
   }
-  // --- END Routing Logic ---
 
   static get styles() {
     return [super.styles,
@@ -111,7 +73,6 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
         min-height: 100vh;
         transition: background-color 0.3s ease;
         
-        /* --- GLOBAL LIGHT PALETTE (DEFAULT) --- */
         --theme-bg-page: var(--ddd-theme-default-white, #ffffff);
         --theme-bg-content-dark: var(--ddd-theme-default-navy, #003B5C);
         --theme-bg-content-dark-secondary: var(--ddd-theme-default-navy80, #1A2938);
@@ -120,12 +81,10 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
         --theme-color-accent: var(--ddd-theme-default-yellow, #FFB81C);
         --theme-color-accent-text: var(--ddd-theme-default-navy);
         
-        /* Set base app background */
         background-color: var(--theme-bg-page);
         color: var(--theme-color-text-dark);
       }
       
-      /* --- GLOBAL DARK PALETTE (AUTO-DETECTED VIA MEDIA QUERY) --- */
       @media (prefers-color-scheme: dark) {
         :host {
           --theme-bg-page: var(--ddd-theme-default-navy);
@@ -136,7 +95,6 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
           --theme-color-accent: var(--ddd-theme-default-yellow, #FFB81C);
           --theme-color-accent-text: var(--ddd-theme-default-navy);
           
-          /* Apply dark theme background/color */
           background-color: var(--theme-bg-page);
           color: var(--theme-color-text-dark);
         }
@@ -227,32 +185,15 @@ export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
 
   render() {
     return html`
-<<<<<<< Updated upstream
-      <!-- HERO BANNER -->
-      <cpbra-banner
-        logoimg="/images/cpbra_logo.png"
-        bgimg="/images/bg_img_ball_court.png"
-        tagline="Community. Hoops. Everyone."
-      ></cpbra-banner>
-=======
       <cpbra-banner 
         logoimg="https://i.imgur.com/YlwsUtg.png"
         bgimg="https://i.imgur.com/hkVjs80.jpeg"
         tagline="Where Anybody Can Get Next">
       </cpbra-banner>
->>>>>>> Stashed changes
 
-      <!-- FLOATING CENTER SCROLL BUTTON -->
-      <cpbra-scroll-btn target="#next"></cpbra-scroll-btn>
+      <cpbra-nav-menu active-route="${this.activeRoute}"></cpbra-nav-menu>
 
-<<<<<<< Updated upstream
-      <!-- EMPTY SECTION JUST TO SCROLL TO -->
-      <div id="next" class="spacer"></div>
-    `;
-  }
-=======
       <main>${this.renderRoute()}</main>
->>>>>>> Stashed changes
 
       <cpbra-footer league-name="CPBRA League" year="2025"></cpbra-footer>
       <cpbra-scroll-btn target="main"></cpbra-scroll-btn>

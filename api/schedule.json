@@ -1,0 +1,30 @@
+[
+    {
+        "opponent": "Dragons FC",
+        "date": "Fri, Dec 12",
+        "time": "8:00 PM",
+        "location": "Stadium One",
+        "status": "Live"
+    },
+    {
+        "opponent": "Titans United",
+        "date": "Sun, Dec 14",
+        "time": "2:00 PM",
+        "location": "Gym B",
+        "status": "Upcoming"
+    },
+    {
+        "opponent": "Wildcats 82",
+        "date": "Wed, Dec 17",
+        "time": "7:30 PM",
+        "location": "The Cage",
+        "status": "Completed"
+    },
+    {
+        "opponent": "Raptors Elite",
+        "date": "Sat, Dec 20",
+        "time": "4:00 PM",
+        "location": "Stadium One",
+        "status": "Canceled"
+    }
+]

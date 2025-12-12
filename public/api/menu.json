@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "label": "Home",
+            "route": "/",
+            "icon": "home"
+        },
+        {
+            "label": "Schedule",
+            "route": "/schedule",
+            "icon": "event"
+        },
+        {
+            "label": "Gallery",
+            "route": "/gallery",
+            "icon": "image:collections"
+        },
+        {
+            "label": "Join",
+            "route": "/join",
+            "icon": "add"
+        }
+    ]
+}

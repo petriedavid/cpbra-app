@@ -1,8 +1,16 @@
 {
     "rewrites": [
         {
-            "source": "/api/:path",
-            "destination": "/public/api/:path"
+            "source": "/api/media.json",
+            "destination": "/public/api/media.json"
+        },
+        {
+            "source": "/api/schedule.json",
+            "destination": "/public/api/schedule.json"
+        },
+        {
+            "source": "/api/menu.json",
+            "destination": "/public/api/menu.json"
         },
         {
             "source": "/(.*)",
